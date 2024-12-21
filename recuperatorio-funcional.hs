@@ -54,6 +54,7 @@ efectoPersonaje Curandero unAventurero = modificarSaludPorcentual (+) 20.modific
 efectoPersonaje Inspirador unAventurero = modificarSaludPorcentual (+) 10.modificarCoraje True$ unAventurero
 efectoPersonaje Embaucador unAventurero = cambiarCriterio (lightPacker 10).modificarSaludPorcentual (-) 50.modificarCarga (+) 10.modificarCoraje False $ unAventurero
 
+
 cambiarCriterio :: Criterio -> Aventurero -> Aventurero
 cambiarCriterio unCriterio unAventurero = unAventurero {criterioSeleccionEncuentros = unCriterio}
 
@@ -73,5 +74,12 @@ queEncuentros unAventurero (cabeza:cola)
 cumpleEncuentroCriterios :: Aventurero -> Personaje -> Bool
 cumpleEncuentroCriterios unAventurero unPersonaje = criterioSeleccionEncuentros unAventurero.encuentroPersonaje unPersonaje $ unAventurero
 
+encuentros = [Curandero, Inspirador, Embaucador, Curandero]
 juan = UnAventurero "Juan" 6 50 False valiente 
+--UnAventurero {nombre = "Juan", carga = 2, salud = 60, tieneCoraje = False, criterioSeleccionEncuentros = <function>}
+carlo = UnAventurero "Carlo" 2 60 False valiente 
+--UnAventurero {nombre = "Carlo", carga = 1, salud = 66, tieneCoraje = True, criterioSeleccionEncuentros = <function>}
+tom = UnAventurero "Tom" 1 66 True valiente 
+--UnAventurero {nombre = "Tom", carga = 10, salud = 33, tieneCoraje = False, criterioSeleccionEncuentros = <function>}
+
 --joaquin = UnAventurero "joaqi" 10 20 True conformista
