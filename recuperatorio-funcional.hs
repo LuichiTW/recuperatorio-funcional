@@ -41,7 +41,7 @@ type Encuentro = Personaje -> Aventurero -> Aventurero
 data Personaje =
     Curandero
     | Inspirador
-    | Embaucador
+    | Embaucador deriving(Show)
 
 encuentroPersonaje :: Encuentro
 encuentroPersonaje personaje unAventurero = efectoPersonaje personaje.modificarCarga (-) (1) $  unAventurero
@@ -58,7 +58,7 @@ cambiarCriterio :: Criterio -> Aventurero -> Aventurero
 cambiarCriterio unCriterio unAventurero = unAventurero {criterioSeleccionEncuentros = unCriterio}
 
 modificarSaludPorcentual :: (Int -> Int -> Int) -> Int -> Aventurero -> Aventurero
-modificarSaludPorcentual modificador porcentaje unAventurero = unAventurero {salud= modificador (salud unAventurero) (div (porcentaje * salud unAventurero) 100)}
+modificarSaludPorcentual modificador porcentaje unAventurero = unAventurero {salud= min 100.max 0.modificador (salud unAventurero) $ (div (porcentaje * salud unAventurero) 100)}
 
 modificarCoraje :: Bool -> Aventurero -> Aventurero
 modificarCoraje valor unAventurero = unAventurero {tieneCoraje = valor}
@@ -67,7 +67,11 @@ modificarCoraje valor unAventurero = unAventurero {tieneCoraje = valor}
 queEncuentros :: Aventurero -> [Personaje] -> [Personaje]
 queEncuentros _ [] = []
 queEncuentros unAventurero (cabeza:cola) 
-    |
+    |cumpleEncuentroCriterios unAventurero cabeza = cabeza : queEncuentros (encuentroPersonaje cabeza unAventurero) cola
     |otherwise = []
 
 cumpleEncuentroCriterios :: Aventurero -> Personaje -> Bool
+cumpleEncuentroCriterios unAventurero unPersonaje = criterioSeleccionEncuentros unAventurero.encuentroPersonaje unPersonaje $ unAventurero
+
+juan = UnAventurero "Juan" 6 50 False valiente 
+--joaquin = UnAventurero "joaqi" 10 20 True conformista
