@@ -50,8 +50,24 @@ modificarCarga :: (Int -> Int -> Int) -> Int -> Aventurero -> Aventurero
 modificarCarga modificador numero unAventurero = unAventurero {carga = modificador (carga unAventurero) numero}
 
 efectoPersonaje :: Personaje -> Aventurero -> Aventurero
-efectoPersonaje Curandero unAventurero = modificarCarga (div) 2 unAventurero
-efectoPersonaje Curandero unAventurero = modificarCarga (div) 2 unAventurero
+efectoPersonaje Curandero unAventurero = modificarSaludPorcentual (+) 20.modificarCarga (div) 2 $ unAventurero
+efectoPersonaje Inspirador unAventurero = modificarSaludPorcentual (+) 10.modificarCoraje True$ unAventurero
+efectoPersonaje Embaucador unAventurero = cambiarCriterio (lightPacker 10).modificarSaludPorcentual (-) 50.modificarCarga (+) 10.modificarCoraje False $ unAventurero
 
-aumentoSaludPorcentual :: Int -> Aventurero -> Aventurero
-aumentoSaludPorcentual porcentaje unAventurero = unAventurero {div porcentaje 100
+cambiarCriterio :: Criterio -> Aventurero -> Aventurero
+cambiarCriterio unCriterio unAventurero = unAventurero {criterioSeleccionEncuentros = unCriterio}
+
+modificarSaludPorcentual :: (Int -> Int -> Int) -> Int -> Aventurero -> Aventurero
+modificarSaludPorcentual modificador porcentaje unAventurero = unAventurero {salud= modificador (salud unAventurero) (div (porcentaje * salud unAventurero) 100)}
+
+modificarCoraje :: Bool -> Aventurero -> Aventurero
+modificarCoraje valor unAventurero = unAventurero {tieneCoraje = valor}
+
+--Punto 4
+queEncuentros :: Aventurero -> [Personaje] -> [Personaje]
+queEncuentros _ [] = []
+queEncuentros unAventurero (cabeza:cola) 
+    |
+    |otherwise = []
+
+cumpleEncuentroCriterios :: Aventurero -> Personaje -> Bool
