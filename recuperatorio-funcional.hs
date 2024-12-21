@@ -7,9 +7,9 @@ data Aventurero = UnAventurero {
     salud :: Int,
     tieneCoraje :: Bool,
     criterioSeleccionEncuentros :: Criterio
-}
+} deriving (Show)
 
-type Encuentro = Aventurero -> Aventurero
+
 type Criterio = Aventurero -> Bool
 
 conformista :: Criterio
@@ -20,3 +20,20 @@ valiente unAventurero = tieneCoraje unAventurero || salud unAventurero > 50
 
 lightPacker :: Int -> Criterio
 lightPacker umbral unAventurero = (<umbral).carga $ unAventurero 
+
+--Punto 2
+existeAventureroConNombreLargo :: [Aventurero] -> Bool
+existeAventureroConNombreLargo unosAventureros = any (tieneMasCantidadLetras 5) unosAventureros
+
+tieneMasCantidadLetras :: Int -> Aventurero -> Bool
+tieneMasCantidadLetras cantidad unAventurero = (>cantidad).length.nombre $ unAventurero 
+
+joaquin = UnAventurero "joaqi" 10 20 True conformista
+
+sumarParesCarga :: [Aventurero] -> Int
+sumarParesCarga unosAventureros = sum.obtenerCargasPares $ unosAventureros
+
+obtenerCargasPares :: [Aventurero] -> [Int]
+obtenerCargasPares unosAventureros = filter even.map carga $ unosAventureros
+
+type Encuentro = Aventurero -> Aventurero
